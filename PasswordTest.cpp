@@ -20,3 +20,87 @@ TEST(PasswordTest, single_letter_password)
 	int actual = my_password.count_leading_characters("Z");
 	ASSERT_EQ(1, actual);
 }
+
+TEST(PasswordTest, two_letter_password)
+{
+	Password my_password;
+	int actual = my_password.count_leading_characters("ZZ");
+	ASSERT_EQ(2, actual);
+}
+
+TEST(PasswordTest, letter_rand_letter_password)
+{
+	Password my_password;
+	int actual = my_password.count_leading_characters("ZaZ");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordTest, rand_letter_letter_password)
+{
+	Password my_password;
+	int actual = my_password.count_leading_characters("aZZ");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordText, rand_rand_rand_rand_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("abcd");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordText, lowercase_capital_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("zZ");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordText, space_space_rand_rand_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("  ab");
+	ASSERT_EQ(2, actual);
+}
+
+TEST(PasswordText, special_special_rand_rand_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("!!ad");
+	ASSERT_EQ(2, actual);
+}
+
+TEST(PasswordText, sql_injection_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters(" ' OR '1=1");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordText, emoji_emoji_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("🌘🌘");
+	ASSERT_EQ(0, actual);
+}
+
+TEST(PasswordText, bee_movie_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("According to all known laws of aviation, a bee is not meant to fly");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordText, backslash_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("\\\\\\\\\\");
+	ASSERT_EQ(10, actual);
+}
+
+TEST(PasswordText, empty_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("");
+	ASSERT_EQ(0, actual);
+}
