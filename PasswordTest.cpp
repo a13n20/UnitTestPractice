@@ -14,6 +14,7 @@ class PracticeTest : public ::testing::Test
 		virtual void TearDown(){} //clean up after each test, (before destructor)
 };
 
+////// count_leading_characters tests //////
 TEST(PasswordTest, single_letter_password)
 {
 	Password my_password;
@@ -124,4 +125,40 @@ TEST(PasswordText, numbers_password)
 	Password my_password;
     int actual = my_password.count_leading_characters("33342153");
 	ASSERT_EQ(3, actual);
+}
+
+////// has_mixed_case tests //////
+TEST(PasswordText, numbers_no_case_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("33342153");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordText, mixed_case_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("zA");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordText, multiple_mixed_cases_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("bakDgAjefVa");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordText, all_lower_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("akosfbefboefo");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordText, all_upper_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("HOIDGOSDGJJSD");
+	ASSERT_EQ(false, actual);
 }
