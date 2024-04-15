@@ -104,3 +104,24 @@ TEST(PasswordText, empty_password)
     int actual = my_password.count_leading_characters("");
 	ASSERT_EQ(0, actual);
 }
+
+TEST(PasswordText, lorem_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("Lorem Ipsum");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordText, password_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("password");
+	ASSERT_EQ(1, actual);
+}
+
+TEST(PasswordText, numbers_password)
+{
+	Password my_password;
+    int actual = my_password.count_leading_characters("33342153");
+	ASSERT_EQ(3, actual);
+}
