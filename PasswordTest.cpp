@@ -162,3 +162,24 @@ TEST(PasswordText, all_upper_password)
     int actual = my_password.has_mixed_case("HOIDGOSDGJJSD");
 	ASSERT_EQ(false, actual);
 }
+
+TEST(PasswordText, no_characters_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordText, all_spaces_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("         ");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordText, lower_space_upper_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("a               A");
+	ASSERT_EQ(true, actual);
+}
