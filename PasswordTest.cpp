@@ -183,3 +183,43 @@ TEST(PasswordText, lower_space_upper_password)
     int actual = my_password.has_mixed_case("a               A");
 	ASSERT_EQ(true, actual);
 }
+
+////// set password test //////
+TEST(PasswordText, constuctor_test)
+{
+	Password my_password;
+	bool actual = my_password.authenticate("ChicoCA-95929");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordText, set_bad_test)
+{
+	Password my_password;
+	my_password.set("bad");
+	bool actual = my_password.authenticate("bad");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordText, set_good_test)
+{
+	Password my_password;
+	my_password.set("tHispAsswordWorks");
+	bool actual = my_password.authenticate("tHispAsswordWorks");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordText, bad_mix_case_test)
+{
+	Password my_password;
+	my_password.set("passwordwontwork");
+	bool actual = my_password.authenticate("passwordwontwork");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordText, bad_length_test)
+{
+	Password my_password;
+	my_password.set("no");
+	bool actual = my_password.authenticate("no");
+	ASSERT_EQ(false, actual);
+}
