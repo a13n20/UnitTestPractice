@@ -184,12 +184,34 @@ TEST(PasswordText, lower_space_upper_password)
 	ASSERT_EQ(true, actual);
 }
 
+TEST(PasswordText, special_and_valid_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("fhAvienGvh@^sjc$5Ajivd");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordText, percent_password)
+{
+	Password my_password;
+    int actual = my_password.has_mixed_case("lafbjc%A");
+	ASSERT_EQ(true, actual);
+}
+
 ////// set password test //////
 TEST(PasswordText, constuctor_test)
 {
 	Password my_password;
 	bool actual = my_password.authenticate("ChicoCA-95929");
 	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordText, set_empty_test)
+{
+	Password my_password;
+	my_password.set("");
+	bool actual = my_password.authenticate("");
+	ASSERT_EQ(false, actual);
 }
 
 TEST(PasswordText, set_bad_test)
@@ -222,4 +244,116 @@ TEST(PasswordText, bad_length_test)
 	my_password.set("no");
 	bool actual = my_password.authenticate("no");
 	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordTest, valid_passowrd_specials)
+{
+	Password my_password;
+	my_password.set("v@lIdpW0rd");
+	bool actual = my_password.authenticate("v@lIdpW0rd");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordTest, invalid_morethan3_password)
+{
+	Password my_password;
+	my_password.set("iiiinvalid");
+	bool actual = my_password.authenticate("iiiinvalid");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordTest, valid_exactly3_password)
+{
+	Password my_password;
+	my_password.set("vvvalidPword");
+	bool actual = my_password.authenticate("vvvalidPword");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordTest, invalid_morethan20_password)
+{
+	Password my_password;
+	my_password.set("dnlknfHihoanfsjkansofnonacNJNFononnonso");
+	bool actual = my_password.authenticate("dnlknfHihoanfsjkansofnonacNJNFononnonso");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordTest, spaces_valid_password)
+{
+	Password my_password;
+	my_password.set("   ValId    ");
+	bool actual = my_password.authenticate("   ValId    ");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordTest, 3backslash_password)
+{
+	Password my_password;
+	my_password.set("///isValid");
+	bool actual = my_password.authenticate("///isValid");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordTest, 6backslash_password)
+{
+	Password my_password;
+	my_password.set("//////notValidx");
+	bool actual = my_password.authenticate("//////notValidx");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordTest, set_multiple_previous_password)
+{
+	Password my_password;
+	my_password.set("thisPassisValid");
+	my_password.set("antHerValid");
+	my_password.set("ValidpassWord");
+	bool actual = my_password.authenticate("thisPassisValid");
+	ASSERT_EQ(false, actual);
+}
+
+TEST(PasswordTest, set_multiple_new_password)
+{
+	Password my_password;
+	my_password.set("thisPassisValid");
+	my_password.set("antHerValid");
+	my_password.set("ValidpassWord");
+	bool actual = my_password.authenticate("ValidpassWord");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordTest, set_old_password_password)
+{
+	Password my_password;
+	my_password.set("thisPassisValid");
+	my_password.set("antHerValid");
+	my_password.set("thisPassisValid");
+	bool actual = my_password.authenticate("antHerValid");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordTest, set_very_old_password_password)
+{
+	Password my_password;
+	my_password.set("thisPassisValid");
+	my_password.set("nEwPassword");
+	my_password.set("anEvenNewerpWord");
+	my_password.set("omgAnother1");
+	my_password.set("antHerValid");
+	my_password.set("thisPassisValid");
+	bool actual = my_password.authenticate("antHerValid");
+	ASSERT_EQ(true, actual);
+}
+
+TEST(PasswordTest, set_relatively_old_password_password)
+{
+	Password my_password;
+	my_password.set("thisPassisValid");
+	my_password.set("nEwPassword");
+	my_password.set("anEvenNewerpWord");
+	my_password.set("omgAnother1");
+	my_password.set("antHerValid");
+	my_password.set("anEvenNewerpWord");
+	bool actual = my_password.authenticate("antHerValid");
+	ASSERT_EQ(true, actual);
 }
